@@ -1,0 +1,9 @@
+[keystone_authtoken]
+auth_plugin = password
+# set keystone url
+auth_url = http://localhost:5000/
+username = 
+user_domain_id = 
+password = 
+project_name = 
+project_domain_id =
