@@ -10,10 +10,11 @@ f"cloud/instances/{instance_id}/cloud-init"
 ```
 ## TODO
 
-- [ ] Use only fastapi *
-- [ ] Add routes to handle upsert/delete instance vendor-data using instance-id
+- [ ] Use only fastapi *;
+- [ ] Add routes to handle upsert/delete instance vendor-data using instance-id;
+- [ ] Set up specific route especially for `cloud-init` to provide simple way to return plain #cloud-config in response stored in specific key;
 
-\* at this moment no way found to use keystonemiddleware with fastapi  so basic Flask app used as sub-app
+\* at this moment no way found to use keystonemiddleware with fastapi so basic Flask app used as sub-app
 
 # evaluation
 <sup>not ready for production usage at this moment</sup>
