@@ -24,11 +24,28 @@ def flask_main():
     data = request.get_json()
     instance_id = data.get("instance-id")
     print(f"instance_id={instance_id}. whole json: {data}")
-    index, data = consul_client.kv.get(f"cloud/instances/{instance_id}/vendor-data-yml")
+    index, data = consul_client.kv.get(f"cloud/instances/{instance_id}/vendor-data")
     if data is None:
         return FResponse({}, status=200, mimetype="application/json")
     else:
         res = data["Value"].decode("utf-8")
+        return jsonutils.dumps(res)
+
+
+@flask_app.post("/cloud-init")
+def fetch_cloud_init():
+    data = request.get_json()
+    instance_id = data.get("instance-id")
+    print(f"instance_id={instance_id}. whole json: {data}")
+    index, data = consul_client.kv.get(f"cloud/instances/{instance_id}/cloud-config")
+    if data is None:
+        return FResponse({}, status=200, mimetype="application/json")
+    else:
+        # We decode bytes to string
+        res = data["Value"].decode("utf-8")
+
+        # HACK: Then we encode it JSON string using oslo.serialization
+        # DynamicJSON able to correctly decode this string with no exceptions
         return jsonutils.dumps(res)
 
 
