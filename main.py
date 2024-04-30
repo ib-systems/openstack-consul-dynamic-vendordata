@@ -3,7 +3,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Json, Field
 from consul_client import consul_client
 from oslo_config import cfg
-import os
+import os, re
+from oslo_serialization import jsonutils
 import uvicorn
 import keystonemiddleware.auth_token
 from fastapi import FastAPI
@@ -21,13 +22,14 @@ flask_app.wsgi_app = keystonemiddleware.auth_token.AuthProtocol(flask_app.wsgi_a
 @flask_app.post("/")
 def flask_main():
     data = request.get_json()
-    instance_id = data.get("instance_id")
-    print(f"instance_id={instance_id}")
-    index, data = consul_client.kv.get(f"cloud/instances/{instance_id}/vendor-data")
+    instance_id = data.get("instance-id")
+    print(f"instance_id={instance_id}. whole json: {data}")
+    index, data = consul_client.kv.get(f"cloud/instances/{instance_id}/vendor-data-yml")
     if data is None:
         return FResponse({}, status=200, mimetype="application/json")
     else:
-        return FResponse(data["Value"], status=200, mimetype="application/json")
+        res = data["Value"].decode("utf-8")
+        return jsonutils.dumps(res)
 
 
 app = FastAPI()
