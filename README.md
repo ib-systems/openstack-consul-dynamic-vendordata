@@ -24,6 +24,16 @@ Start server
 ```
 python main.py
 ```
+# running in docker
+1. Build docker image `docker build -t ocdv .`
+2. Run `docker run -it -p 8000:8000 --rm --mount type=bind,source="$(pwd)"/ocdv.conf,target=/home/ocdv/ocdv.conf,readonly ocdv`
+3. Set up your nova-api to use DynamicJSON provider
+```
+[api]
+vendordata_providers = DynamicJSON
+vendordata_dynamic_targets = 'cloud-init@http://10.10.10.10:8000/ocdv/cloud-init'
+```
+Here first `cloud-init` stands for vendor data key. cloud-init expect this to process `#cloud-config` provided by vendor_data2.json. Last cloud-init is url path that returns cloud-config stored in Consul KV by path `f"cloud/instances/{instance_id}/cloud-config`
 
 Send POST request with JSON contains "instance-id" field. In case Consul KV have a key following path `f"cloud/instances/{instance_id}/vendor-data"` response will be returned as application/json.
 
