@@ -10,4 +10,6 @@ project_domain_id =
 
 [consul]
 host = 127.0.0.1
+port = 8500
+dc = 
 token = 
