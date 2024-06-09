@@ -12,9 +12,6 @@ from fastapi import FastAPI
 from fastapi.middleware.wsgi import WSGIMiddleware
 from flask import Flask, request, Response as FResponse
 
-conf = cfg.CONF
-conf(default_config_files=[os.getcwd() + "/ocdv.conf"])
-
 flask_app = Flask(__name__)
 flask_app.wsgi_app = keystonemiddleware.auth_token.AuthProtocol(flask_app.wsgi_app, {})
 
