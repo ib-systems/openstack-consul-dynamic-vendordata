@@ -25,8 +25,15 @@ Start server
 python main.py
 ```
 # running in docker
-1. Build docker image `docker build -t ocdv .`
-2. Run `docker run -it -p 8000:8000 --rm --mount type=bind,source="$(pwd)"/ocdv.conf,target=/home/ocdv/ocdv.conf,readonly ocdv`
+1. Build docker image `docker build -t ocdv .` or `docker-compose build`
+2. Run manually
+```
+docker run -it -p 8000:8000 --rm --mount type=bind,source="$(pwd)"/ocdv.conf,target=/home/ocdv/ocdv.conf,readonly ocdv
+```
+or use compose
+```
+docker-compose up
+```
 3. Set up your nova-api to use DynamicJSON provider
 ```
 [api]

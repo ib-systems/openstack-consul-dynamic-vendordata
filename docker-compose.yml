@@ -1,0 +1,8 @@
+services:
+  ocdv:
+    image: "ocdv"
+    restart: always
+    volumes:
+      - ./ocdv.conf:/home/ocdv/ocdv.conf
+    ports:
+      - "8000:8000"
